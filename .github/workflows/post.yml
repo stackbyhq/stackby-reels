@@ -21,8 +21,8 @@ jobs:
     timeout-minutes: 60
     env:
       CHANNEL_NAME: Stackby
-      MEDIA_REPO: ${{ vars.MEDIA_REPO }}
-      SHEET_ID: ${{ vars.SHEET_ID }}
+      MEDIA_REPO: ${{ vars.MEDIA_REPO || 'stackbyhq/stackby-reels-media' }}
+      SHEET_ID: ${{ vars.SHEET_ID || '1OTJRHzf1OUDkENIs_dq3IPuvicJAN7nk29tSMHI6hV8' }}
       BOT_PAT: ${{ secrets.BOT_PAT }}
       IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
       YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
@@ -33,11 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.BOT_PAT }}
+          token: ${{ secrets.BOT_PAT || github.token }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
+      - run: python scripts/setup_check.py
       - run: python scripts/post.py

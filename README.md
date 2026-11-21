@@ -41,8 +41,9 @@ Tracker: [Stackby Video Posting Tracker](https://docs.google.com/spreadsheets/d/
    repository access **only the two repos**; permissions **Contents: Read and write, Actions: Read and
    write, Secrets: Read and write** (Metadata is added automatically); longest expiry, set a reminder.
    Save it as secret **`BOT_PAT`**.
-5. Settings → Secrets and variables → Actions → **Variables** tab: add `MEDIA_REPO` = `stackbyhq/stackby-reels-media`
-   and `SHEET_ID` = `1OTJRHzf1OUDkENIs_dq3IPuvicJAN7nk29tSMHI6hV8`.
+5. Nothing else: `MEDIA_REPO` (`stackbyhq/stackby-reels-media`) and `SHEET_ID` (the tracker) are built into the
+   workflows. Override them under Settings → Secrets and variables → Actions → Variables only if they change.
+   Every workflow starts with `setup_check.py`, which lists any secret that is still missing.
 
 ### 2 · Instagram (15 min)
 1. The Stackby Instagram must be a **Business or Creator** account, and public.
@@ -122,7 +123,7 @@ retried on the next run (up to 3 tries); nothing is ever posted twice.
 | `YT_REFRESH_TOKEN` | secret | `yt_auth.py` | not while the app is in production |
 | `TELEGRAM_BOT_TOKEN` | secret | BotFather | never |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | secret | Tracker step 1 | never (delete the key to revoke) |
-| `MEDIA_REPO`, `SHEET_ID` | variables | GitHub step 5 | — |
+| `MEDIA_REPO`, `SHEET_ID` | optional variables | built in | — |
 
 Never paste a token into a chat, email or file in the repo. If one leaks, revoke it and save a new one.
 
