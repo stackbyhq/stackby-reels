@@ -1,5 +1,5 @@
-Dry run 2026-11-21T14:09:47Z
-FAIL Instagram token: No Instagram professional account found: link the Stackby Instagram to a Facebook Page and give the token instagram_basic, instagram_content_publish, pages_show_list and pages_read_engagement (or set the IG_USER_ID secret)
+Dry run 2026-11-21T14:12:18Z
+FAIL Instagram token: No Instagram professional account found. Token belongs to Stackby Reels Bot System User (122097499779559684); granted: instagram_basic, instagram_content_publish, instagram_manage_comments, instagram_manage_messages, public_profile. Fix: token is missing permissions: instagram_manage_insights, pages_show_list, pages_read_engagement (regenerate it with these ticked); the token sees no Facebook Pages: when generating it, select the Stackby Page in the 'choose Pages' step
 FAIL YouTube token: YouTube auth failed: invalid_request Missing required parameter: refresh_token
 FAIL Media repo: GitHub GET https://api.github.com/repos/stackbyhq/stackby-reels-media -> 401: {
   "message": "Bad credentials",
