@@ -1,5 +1,5 @@
-Dry run 2026-11-21T19:35:59Z
+Dry run 2026-11-21T19:37:24Z
 OK   Instagram token: @stackbyhq · insights on · token issued 2026-11-21 19:21 UTC, scopes: instagram_basic, instagram_manage_comments, instagram_manage_insights, instagram_content_publish, instagram_manage_messages, instagram_manage_events, public_profile
 FAIL YouTube token: YouTube auth failed: invalid_request Missing required parameter: refresh_token
 OK   Media repo: stackbyhq/stackby-reels-media (public)
-FAIL Telegram: chat not linked (README, Telegram step 4)
+OK   Telegram: linked
