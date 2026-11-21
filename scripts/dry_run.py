@@ -19,6 +19,15 @@ def media_repo():
     return f"{r['full_name']} (public)"
 
 
+def instagram():
+    me = IG.account()
+    out = "@" + me.get("username", "?")
+    if IG.fb_login():
+        perms = {p["permission"] for p in IG._req("GET", "me/permissions").get("data", []) if p.get("status") == "granted"}
+        out += " · insights " + ("on" if "instagram_manage_insights" in perms else "OFF (views/likes won't reach the tracker; add instagram_manage_insights to the token)")
+    return out
+
+
 def telegram_linked():
     if not os.path.exists(telegram.CHAT_FILE):
         raise RuntimeError("chat not linked (README, Telegram step 4)")
@@ -39,7 +48,7 @@ def main():
     trig = os.path.join(OPS, "dryrun.trigger")
     names = open(trig).read().split() if os.path.exists(trig) else []  # run by hand with no trigger file: checks the accounts only
     log = [f"Dry run {iso(now())}"]
-    checks = [("Instagram token", lambda: "@" + IG.account().get("username", "?")), ("YouTube token", YT.channel),
+    checks = [("Instagram token", instagram), ("YouTube token", YT.channel),
               ("Media repo", media_repo), ("Telegram", telegram_linked)] + [(f"Video {n}", lambda n=n: video(n)) for n in names]
     for label, fn in checks:
         try:
