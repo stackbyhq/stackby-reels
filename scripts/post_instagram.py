@@ -39,8 +39,29 @@ def account():
         ig = pg.get("instagram_business_account")
         if ig:
             return {"user_id": ig["id"], "username": ig.get("username"), "page": pg.get("name")}
-    raise RuntimeError("No Instagram professional account found: link the Stackby Instagram to a Facebook Page and give the token "
-                       "instagram_basic, instagram_content_publish, pages_show_list and pages_read_engagement (or set the IG_USER_ID secret)")
+    raise RuntimeError("No Instagram professional account found. " + diagnose(pages))
+
+
+NEEDED_FB = ("instagram_basic", "instagram_content_publish", "instagram_manage_comments", "instagram_manage_insights", "pages_show_list", "pages_read_engagement")
+
+
+def diagnose(pages=None):
+    """Explain why a Facebook-login token can't reach the Instagram account."""
+    try:
+        perms = {p["permission"] for p in _req("GET", "me/permissions").get("data", []) if p.get("status") == "granted"}
+    except RuntimeError as e:
+        return f"(could not read token permissions: {e})"
+    missing = [p for p in NEEDED_FB if p not in perms]
+    who = _req("GET", "me", fields="id,name")
+    names = ", ".join(pg.get("name", "?") for pg in (pages or [])) or "none"
+    tips = []
+    if missing:
+        tips.append(f"token is missing permissions: {', '.join(missing)} (regenerate it with these ticked)")
+    if not pages:
+        tips.append("the token sees no Facebook Pages: when generating it, select the Stackby Page in the 'choose Pages' step")
+    else:
+        tips.append(f"Pages visible to the token ({names}) have no Instagram linked: Page → Settings → Linked accounts → Instagram → Connect")
+    return f"Token belongs to {who.get('name')} ({who.get('id')}); granted: {', '.join(sorted(perms)) or 'none'}. Fix: " + "; ".join(tips)
 
 
 def publish_reel(video_url, caption, cover_url=None, first_comment=None, wait=600):
