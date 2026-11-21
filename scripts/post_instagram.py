@@ -106,11 +106,15 @@ def insights(media_id):
 
 
 def refresh_token():
-    """Fresh 60-day token. Facebook Login tokens need the app's ID and secret (FB_APP_ID, FB_APP_SECRET)."""
+    """Fresh 60-day token, or (None, None) when the token never expires. Facebook Login tokens need the app's ID and secret (FB_APP_ID, FB_APP_SECRET)."""
     tok = os.environ["IG_ACCESS_TOKEN"]
     if fb_login():
         if not (os.environ.get("FB_APP_ID") and os.environ.get("FB_APP_SECRET")):
             raise RuntimeError("Facebook-login token: add the FB_APP_ID and FB_APP_SECRET secrets (Meta app → App settings → Basic) so it can be renewed")
+        dbg = requests.get("https://graph.facebook.com/v21.0/debug_token", params={"input_token": tok,
+                           "access_token": f"{os.environ['FB_APP_ID']}|{os.environ['FB_APP_SECRET']}"}, timeout=60).json().get("data", {})
+        if dbg.get("is_valid") and dbg.get("expires_at") == 0:
+            return None, None  # system-user token that never expires: nothing to renew
         r = requests.get("https://graph.facebook.com/v21.0/oauth/access_token", params={"grant_type": "fb_exchange_token", "client_id": os.environ["FB_APP_ID"],
                          "client_secret": os.environ["FB_APP_SECRET"], "fb_exchange_token": tok}, timeout=60)
     else:

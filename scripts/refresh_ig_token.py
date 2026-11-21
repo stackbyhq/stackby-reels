@@ -22,6 +22,9 @@ def save_secret(name, value):
 def main():
     try:
         token, expires = IG.refresh_token()
+        if token is None:
+            print("Instagram token never expires (system user): nothing to renew")
+            return
         save_secret("IG_ACCESS_TOKEN", token)
         days = int(expires or 0) // 86400
         print(f"Instagram token refreshed, valid {days} days")

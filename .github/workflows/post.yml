@@ -25,7 +25,7 @@ jobs:
       SHEET_ID: ${{ vars.SHEET_ID || '1OTJRHzf1OUDkENIs_dq3IPuvicJAN7nk29tSMHI6hV8' }}
       BOT_PAT: ${{ secrets.BOT_PAT }}
       IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID || '17841407791849179' }}
       FB_APP_ID: ${{ secrets.FB_APP_ID }}
       FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
       YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
