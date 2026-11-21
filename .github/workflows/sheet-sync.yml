@@ -1,0 +1,36 @@
+name: sheet-sync
+# Daily refresh of the Google Sheets tracker (02:30 UTC = 08:00 IST). Posting runs and the digest also sync it.
+on:
+  schedule:
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+concurrency:
+  group: sheet-sync
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      CHANNEL_NAME: Stackby
+      MEDIA_REPO: ${{ vars.MEDIA_REPO }}
+      SHEET_ID: ${{ vars.SHEET_ID }}
+      BOT_PAT: ${{ secrets.BOT_PAT }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_PAT }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python scripts/stats.py && python scripts/sheet_sync.py
+      - run: |
+          git config user.name "Stackby reels bot"; git config user.email reels-bot@users.noreply.github.com
+          git add posted queue; git diff --cached --quiet || (git commit -m "stats: refresh [skip ci]" && git push)

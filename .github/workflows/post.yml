@@ -1,0 +1,43 @@
+name: post-reel
+# Wakes several times a day (UTC); a run only posts items whose time has passed, so extra runs are harmless.
+# 07:00 UTC = 12:30 IST (the default slot in scripts/enqueue.py). Any push to queue/ also starts it.
+on:
+  schedule:
+    - cron: "2 7 * * *"
+    - cron: "20 7 * * *"
+    - cron: "45 8 * * *"
+    - cron: "15 11 * * *"
+    - cron: "40 13 * * *"
+    - cron: "10 17 * * *"
+  push:
+    paths: ["queue/**"]
+  workflow_dispatch:
+concurrency:
+  group: post-reel
+  cancel-in-progress: false
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      CHANNEL_NAME: Stackby
+      MEDIA_REPO: ${{ vars.MEDIA_REPO }}
+      SHEET_ID: ${{ vars.SHEET_ID }}
+      BOT_PAT: ${{ secrets.BOT_PAT }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_PAT }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python scripts/post.py
