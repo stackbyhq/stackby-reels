@@ -25,6 +25,13 @@ def instagram():
     if IG.fb_login():
         perms = {p["permission"] for p in IG._req("GET", "me/permissions").get("data", []) if p.get("status") == "granted"}
         out += " · insights " + ("on" if "instagram_manage_insights" in perms else "OFF (views/likes won't reach the tracker; add instagram_manage_insights to the token)")
+        if os.environ.get("FB_APP_ID") and os.environ.get("FB_APP_SECRET"):
+            import datetime
+            import requests
+            d = requests.get("https://graph.facebook.com/v21.0/debug_token", params={"input_token": os.environ["IG_ACCESS_TOKEN"],
+                             "access_token": f"{os.environ['FB_APP_ID']}|{os.environ['FB_APP_SECRET']}"}, timeout=60).json().get("data", {})
+            issued = datetime.datetime.fromtimestamp(d.get("issued_at", 0), datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC") if d.get("issued_at") else "?"
+            out += f" · token issued {issued}, scopes: {', '.join(d.get('scopes', [])) or '?'}"
     return out
 
 
