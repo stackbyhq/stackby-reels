@@ -27,19 +27,20 @@ def find(folder, pattern):
     return hits[0] if hits else None
 
 
-def prepare(c, folder):
+def prepare(c, folder, copy=True):
     name = c["name"]
     src = {"reel.mp4": find(folder, c["files"]["vertical"]), "cover.jpg": find(folder, c["files"]["cover"]),
            "landscape.mp4": find(folder, c["files"]["landscape"]), "thumb.jpg": find(folder, f"stackby-{name}-thumbnail*.jpg")}
     if not src["reel.mp4"]:
         return None
-    d = os.path.join(OUTDIR, name)
-    os.makedirs(d, exist_ok=True)
-    for dst, s in src.items():
-        if s:
-            shutil.copy2(s, os.path.join(d, dst))
-    write(os.path.join(REELS, name, "script.json"), {"title": c["title"]})
-    write(os.path.join(REELS, name, "post.json"), {k: c[k] for k in ("caption", "first_comment", "yt_title", "yt_description", "yt_long_title", "yt_long_description", "yt_tags")})
+    if copy:
+        d = os.path.join(OUTDIR, name)
+        os.makedirs(d, exist_ok=True)
+        for dst, s in src.items():
+            if s:
+                shutil.copy2(s, os.path.join(d, dst))
+        write(os.path.join(REELS, name, "script.json"), {"title": c["title"]})
+        write(os.path.join(REELS, name, "post.json"), {k: c[k] for k in ("caption", "first_comment", "yt_title", "yt_description", "yt_long_title", "yt_long_description", "yt_tags")})
     return [k for k, v in src.items() if v]
 
 
@@ -60,11 +61,11 @@ def main():
     for c in caps:
         if (a.only and c["name"] not in a.only) or c["name"] in already:
             continue
-        got = prepare(c, folder)
+        got = prepare(c, folder, copy=not a.check)
         if got is None:
             missing.append(c["files"]["vertical"])
             continue
-        errs = E.check(c["name"])
+        errs = [] if a.check else E.check(c["name"])
         if errs:
             problems.append((c["name"], errs))
             continue
