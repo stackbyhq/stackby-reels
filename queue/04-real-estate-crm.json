@@ -1,0 +1,19 @@
+{
+ "name": "04-real-estate-crm",
+ "title": "Real Estate CRM & Portal",
+ "at": "2026-12-03T07:00:00Z",
+ "status": "queued",
+ "queued_at": "2026-11-21T21:10:46Z",
+ "attempts": 0,
+ "platforms": {
+  "instagram": {
+   "status": "pending"
+  },
+  "youtube_short": {
+   "status": "pending"
+  },
+  "youtube_long": {
+   "status": "pending"
+  }
+ }
+}

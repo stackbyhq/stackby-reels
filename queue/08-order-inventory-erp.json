@@ -1,0 +1,19 @@
+{
+ "name": "08-order-inventory-erp",
+ "title": "Order & Inventory ERP",
+ "at": "2026-12-22T07:00:00Z",
+ "status": "queued",
+ "queued_at": "2026-11-21T21:10:46Z",
+ "attempts": 0,
+ "platforms": {
+  "instagram": {
+   "status": "pending"
+  },
+  "youtube_short": {
+   "status": "pending"
+  },
+  "youtube_long": {
+   "status": "pending"
+  }
+ }
+}

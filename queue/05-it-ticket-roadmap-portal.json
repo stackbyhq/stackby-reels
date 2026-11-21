@@ -1,0 +1,19 @@
+{
+ "name": "05-it-ticket-roadmap-portal",
+ "title": "IT Ticket Portal & Roadmap Tracker",
+ "at": "2026-12-20T07:00:00Z",
+ "status": "queued",
+ "queued_at": "2026-11-21T21:10:46Z",
+ "attempts": 0,
+ "platforms": {
+  "instagram": {
+   "status": "pending"
+  },
+  "youtube_short": {
+   "status": "pending"
+  },
+  "youtube_long": {
+   "status": "pending"
+  }
+ }
+}
