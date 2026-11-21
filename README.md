@@ -52,6 +52,11 @@ Tracker: [Stackby Video Posting Tracker](https://docs.google.com/spreadsheets/d/
    **Generate token**. Permissions: `instagram_business_basic`, `instagram_business_content_publish`,
    `instagram_business_manage_comments`, `instagram_business_manage_insights` (not manage_messages).
 4. Save it as secret **`IG_ACCESS_TOKEN`**. The app can stay in development mode for your own account.
+   Both Meta token types work: **`IGAA…`** (Instagram Login, renews itself) or **`EAA…`** (Facebook Login: the
+   Stackby Instagram must be linked to a Facebook Page; token permissions `instagram_basic`,
+   `instagram_content_publish`, `instagram_manage_comments`, `instagram_manage_insights`, `pages_show_list`,
+   `pages_read_engagement`; also add **`FB_APP_ID`** and **`FB_APP_SECRET`** from App settings → Basic so the
+   robot can renew it, and exchange a short-lived token for a 60-day one first, see below).
    `refresh-token.yml` renews it every 1st and 15th; if the robot is off for 60 days, generate a new one.
 
 ### 3 · YouTube (20 min)
@@ -119,6 +124,8 @@ retried on the next run (up to 3 tries); nothing is ever posted twice.
 |---|---|---|---|
 | `BOT_PAT` | secret | GitHub step 4 | when you chose |
 | `IG_ACCESS_TOKEN` | secret | Instagram step 3 | 60 days, renewed automatically |
+| `FB_APP_ID`, `FB_APP_SECRET` | secrets, only for `EAA…` tokens | Meta app → App settings → Basic | never |
+| `IG_USER_ID` | optional secret | Instagram account id, if the token can't find it via your Pages | never |
 | `YT_CLIENT_ID`, `YT_CLIENT_SECRET` | secret | YouTube step 3 | never |
 | `YT_REFRESH_TOKEN` | secret | `yt_auth.py` | not while the app is in production |
 | `TELEGRAM_BOT_TOKEN` | secret | BotFather | never |
