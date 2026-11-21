@@ -36,7 +36,8 @@ def video(name):
 
 
 def main():
-    names = open(os.path.join(OPS, "dryrun.trigger")).read().split()
+    trig = os.path.join(OPS, "dryrun.trigger")
+    names = open(trig).read().split() if os.path.exists(trig) else []  # run by hand with no trigger file: checks the accounts only
     log = [f"Dry run {iso(now())}"]
     checks = [("Instagram token", lambda: "@" + IG.account().get("username", "?")), ("YouTube token", YT.channel),
               ("Media repo", media_repo), ("Telegram", telegram_linked)] + [(f"Video {n}", lambda n=n: video(n)) for n in names]
