@@ -32,5 +32,28 @@
   }
  },
  "updated_at": "2026-11-26T16:27:47Z",
- "archive": "https://github.com/stackbyhq/stackby-reels/releases/tag/posted-18-meta-lead-ads-crm"
+ "archive": "https://github.com/stackbyhq/stackby-reels/releases/tag/posted-18-meta-lead-ads-crm",
+ "stats": {
+  "instagram": {
+   "views": 14,
+   "reach": 9,
+   "likes": 1,
+   "comments": 1,
+   "shares": 0,
+   "saved": 0
+  },
+  "youtube_short": {
+   "views": 1,
+   "likes": 0,
+   "comments": 0,
+   "privacy": "public"
+  },
+  "youtube_long": {
+   "views": 0,
+   "likes": 0,
+   "comments": 0,
+   "privacy": "public"
+  }
+ },
+ "stats_updated_at": "2026-11-26T18:08:04Z"
 }
