@@ -2,18 +2,31 @@
  "name": "18-meta-lead-ads-crm",
  "title": "Meta Lead Ads CRM Portal",
  "at": "2026-11-26T16:24:08Z",
- "status": "queued",
+ "status": "partial",
  "queued_at": "2026-11-21T21:10:46Z",
- "attempts": 0,
+ "attempts": 1,
  "platforms": {
   "instagram": {
-   "status": "pending"
+   "status": "failed",
+   "error": "GitHub POST https://api.github.com/repos/stackbyhq/stackby-reels-media/releases -> 422: {\"message\":\"Validation Failed\",\"errors\":[{\"resource\":\"Release\",\"code\":\"custom\",\"message\":\"Repository is empty.\"}],\"documentation_url\":\"https://docs.github.com/rest/releases/releases#create-a-release\",\"status\":\"422\"}",
+   "failed_at": "2026-11-26T16:25:31Z"
   },
   "youtube_short": {
-   "status": "pending"
+   "status": "posted",
+   "posted_at": "2026-11-26T16:25:34Z",
+   "id": "VDcykSsb7Ig",
+   "url": "https://youtube.com/shorts/VDcykSsb7Ig",
+   "privacy": "public",
+   "thumb_error": null
   },
   "youtube_long": {
-   "status": "pending"
+   "status": "posted",
+   "posted_at": "2026-11-26T16:25:44Z",
+   "id": "1-5xANc5SmI",
+   "url": "https://youtu.be/1-5xANc5SmI",
+   "privacy": "public",
+   "thumb_error": null
   }
- }
+ },
+ "updated_at": "2026-11-26T16:25:44Z"
 }
