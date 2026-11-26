@@ -23,8 +23,27 @@ def _api(method, url, tok, **kw):
     return r
 
 
+def find_recent(title, tok=None, n=15):
+    """A recent upload on the channel with this exact title (guards against double posting)."""
+    tok = tok or access_token()
+    ch = _api("GET", "https://www.googleapis.com/youtube/v3/channels", tok, params={"part": "contentDetails", "mine": "true"}).json()
+    if not ch.get("items"):
+        return None
+    pl = ch["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+    r = _api("GET", "https://www.googleapis.com/youtube/v3/playlistItems", tok, params={"part": "snippet,status", "playlistId": pl, "maxResults": n}).json()
+    for it in r.get("items", []):
+        if " ".join(it["snippet"]["title"].split()) == " ".join(title[:100].split()):
+            return it["snippet"]["resourceId"]["videoId"], it.get("status", {}).get("privacyStatus")
+    return None
+
+
 def upload(path, title, description, tags=None, thumb=None, short=True, privacy="public"):
     tok = access_token()
+    found = find_recent(title, tok)
+    if found:
+        vid, priv = found
+        print("YouTube: already uploaded, not uploading again:", vid)
+        return {"id": vid, "url": f"https://youtube.com/shorts/{vid}" if short else f"https://youtu.be/{vid}", "privacy": priv or privacy, "thumb_error": None, "deduped": True}
     meta = {"snippet": {"title": title[:100], "description": description[:4900], "tags": tags or [], "categoryId": "28"},
             "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False, "embeddable": True}}
     size = os.path.getsize(path)

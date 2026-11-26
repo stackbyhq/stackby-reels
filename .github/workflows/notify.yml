@@ -2,6 +2,7 @@ name: notify
 # Telegram: link the chat when ops/telegram-setup.trigger changes; daily digest at 03:30 UTC (09:00 IST).
 on:
   push:
+    branches: [main]
     paths: ["ops/telegram-setup.trigger"]
   schedule:
     - cron: "30 3 * * *"

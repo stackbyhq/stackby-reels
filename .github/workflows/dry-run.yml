@@ -1,6 +1,7 @@
 name: dry-run
 on:
   push:
+    branches: [main]
     paths: ["ops/dryrun.trigger"]
   workflow_dispatch:
 jobs:

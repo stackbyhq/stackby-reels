@@ -64,8 +64,28 @@ def diagnose(pages=None):
     return f"Token belongs to {who.get('name')} ({who.get('id')}); granted: {', '.join(sorted(perms)) or 'none'}. Fix: " + "; ".join(tips)
 
 
+def _norm(s):
+    return " ".join((s or "").split())
+
+
+def find_recent(caption, days=3):
+    """A reel on the account with this exact caption, posted in the last few days (guards against double posting)."""
+    import datetime as dt
+    me = account()
+    cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=days)
+    for m in _req("GET", f"{me['user_id']}/media", fields="id,caption,permalink,timestamp", limit=25).get("data", []):
+        ts = dt.datetime.strptime(m["timestamp"], "%Y-%m-%dT%H:%M:%S%z")
+        if ts >= cutoff and _norm(m.get("caption")) == _norm(caption):
+            return {"id": m["id"], "url": m.get("permalink"), "username": me.get("username"), "comment_error": None, "deduped": True}
+    return None
+
+
 def publish_reel(video_url, caption, cover_url=None, first_comment=None, wait=600):
     """Create a REELS container, wait until Instagram has processed it, publish, then comment."""
+    existing = find_recent(caption)
+    if existing:
+        print("Instagram: this reel is already on the account, not posting again:", existing["url"])
+        return existing
     me = account()
     uid = me["user_id"]
     params = {"media_type": "REELS", "video_url": video_url, "caption": caption, "share_to_feed": "true"}

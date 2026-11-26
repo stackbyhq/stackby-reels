@@ -6,7 +6,9 @@ add the first comment, then move the item to posted/ with the links, archive a p
 send a Telegram alert and refresh the Google Sheets tracker. A platform that fails is retried on the next run
 (up to MAX_ATTEMPTS); platforms that already succeeded are never posted twice.
 """
+import json
 import os
+import subprocess
 import sys
 import traceback
 
@@ -16,7 +18,7 @@ import hosting  # noqa: E402
 import post_instagram as IG  # noqa: E402
 import post_youtube as YT  # noqa: E402
 import telegram  # noqa: E402
-from common import CHANNEL, MAX_ATTEMPTS, POSTED, QUEUE, git_commit_push, iso, items, media_files, now, parse, post_meta, write  # noqa: E402
+from common import CHANNEL, MAX_ATTEMPTS, POSTED, QUEUE, ROOT, git_commit_push, iso, items, media_files, now, parse, post_meta, sh, write  # noqa: E402
 
 PER_RUN = int(os.environ.get("POSTS_PER_RUN", "2"))  # keeps YouTube within its daily quota
 
@@ -24,6 +26,16 @@ PER_RUN = int(os.environ.get("POSTS_PER_RUN", "2"))  # keeps YouTube within its 
 def due():
     t = now()
     return [i for i in items(QUEUE) if i.get("status") in ("queued", "partial") and i.get("at") and parse(i["at"]) <= t and i.get("attempts", 0) < MAX_ATTEMPTS]
+
+
+def latest_state(name):
+    """The item as it is right now on origin/main (another run may have posted it since this checkout)."""
+    subprocess.run(["git", "fetch", "-q", "origin", "main"], cwd=ROOT)
+    for folder in ("posted", "queue"):
+        r = subprocess.run(["git", "show", f"origin/main:{folder}/{name}.json"], cwd=ROOT, capture_output=True, text=True)
+        if r.returncode == 0:
+            return json.loads(r.stdout)
+    return None
 
 
 def post_one(item):
@@ -39,6 +51,11 @@ def post_one(item):
                       ("youtube_long", lambda: YT.upload(files["landscape.mp4"], meta.get("yt_long_title", meta["yt_title"]), meta.get("yt_long_description", ""),
                                                          meta.get("yt_tags"), thumb=files.get("thumb.jpg"), short=False))):
         if plat not in p or p[plat].get("status") == "posted":
+            continue
+        fresh = latest_state(name)
+        if fresh and fresh.get("platforms", {}).get(plat, {}).get("status") == "posted":
+            print(f"{name}/{plat}: already posted by another run, skipping")
+            p[plat] = fresh["platforms"][plat]
             continue
         try:
             res = run()
@@ -73,6 +90,10 @@ def summary(item):
 
 
 def main():
+    branch = sh("git", "rev-parse", "--abbrev-ref", "HEAD")
+    if branch != "main":
+        print(f"not on main ({branch}): refusing to post")
+        return
     todo = due()[:PER_RUN]
     if not todo:
         print("nothing due")
