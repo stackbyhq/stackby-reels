@@ -1,0 +1,19 @@
+{
+ "name": "06-airtable-vs-stackby",
+ "title": "Airtable vs Stackby",
+ "at": "2026-11-27T07:00:00Z",
+ "status": "queued",
+ "queued_at": "2026-11-26T16:46:07Z",
+ "attempts": 0,
+ "platforms": {
+  "instagram": {
+   "status": "pending"
+  },
+  "youtube_short": {
+   "status": "pending"
+  },
+  "youtube_long": {
+   "status": "pending"
+  }
+ }
+}
