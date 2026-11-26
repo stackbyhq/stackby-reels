@@ -59,7 +59,10 @@ def vowel_f1(x, chars, start_idx):
     return float(np.median(tr)) if tr else None
 
 
-def mentions(chars, word="Stack-buy"):
+def mentions(chars, word=None):
+    """Index of the 'b' in every spoken brand word (e.g. Stack|b|uy)."""
+    from voice import SPOKEN
+    word = word or SPOKEN[0][1]
     text = "".join(c["text"] for c in chars)
     return [m.start() + len(word) - 3 for m in re.finditer(re.escape(word), text, re.I)]
 

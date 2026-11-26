@@ -3,12 +3,13 @@
 Scripts and captions always use the brand spelling. Only the text sent to the voice is respelled, so it is
 spoken the way the brand is said; the word timings are mapped back so captions still read "Stackby".
 
-  Stackby  ->  "Stack buy"   (never "Stack bee")
+  Stackby  ->  "Stackbuy"  = said "Stack buy" (never "Stack bee"). One word, no hyphen: a hyphen makes the
+  voice stumble on the web address ("stack-by dot com").
 """
 import re
 
 SPOKEN = [  # (written, spoken)
-    ("Stackby", "Stack-buy"),
+    ("Stackby", "Stackbuy"),
 ]
 
 
@@ -31,7 +32,7 @@ def pronunciation_problems(script_text, heard_text):
     out = []
     for w, s in SPOKEN:
         want = len(re.findall(rf"\b{w}\b", script_text, re.I))
-        head, tail = s.split("-")
+        head, tail = s[:5], s[5:]
         good = len(re.findall(rf"\b{head}[\s-]?{tail}", heard_text, re.I))
         if good < want:
             out.append(f"'{w}' said {want}x in the script but heard as '{head} {tail}' only {good}x")
