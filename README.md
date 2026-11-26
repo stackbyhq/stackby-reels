@@ -101,6 +101,9 @@ Write a video name (e.g. `13-ai-fields-data-entry`) into `ops/dryrun.trigger` an
 token, the media repo, Telegram, the files and the captions, without publishing, and reports to Telegram and
 `ops/status/dry-run.log`.
 
+## Voiceovers
+Every video must have a voiceover before it is queued. Pronounce **Stackby as "Stack buy"**. Rules, tools and the checks every voiceover must pass are in [`voiceover/README.md`](voiceover/README.md).
+
 ## Day to day
 
 | Want to… | Do |
