@@ -16,7 +16,9 @@ def media_repo():
     r = gh("GET", f"/repos/{os.environ['MEDIA_REPO']}")
     if r["private"]:
         raise RuntimeError(f"{r['full_name']} is private: Instagram cannot fetch videos from it")
-    return f"{r['full_name']} (public)"
+    import hosting
+    made = hosting.ensure_initialized(r["full_name"])
+    return f"{r['full_name']} (public{', initialized now' if made else ', ready for uploads'})"
 
 
 def instagram():
