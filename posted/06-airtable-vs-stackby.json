@@ -1,0 +1,36 @@
+{
+ "name": "06-airtable-vs-stackby",
+ "title": "Airtable vs Stackby",
+ "at": "2026-11-27T07:00:00Z",
+ "status": "posted",
+ "queued_at": "2026-11-26T16:46:07Z",
+ "attempts": 1,
+ "platforms": {
+  "instagram": {
+   "status": "posted",
+   "posted_at": "2026-11-27T09:21:53Z",
+   "id": "18151529029542339",
+   "url": "https://www.instagram.com/reel/DgPWGLvxsAC/",
+   "username": "stackbyhq",
+   "comment_error": null
+  },
+  "youtube_short": {
+   "status": "posted",
+   "posted_at": "2026-11-27T09:21:56Z",
+   "id": "gsTxaQLwqt8",
+   "url": "https://youtube.com/shorts/gsTxaQLwqt8",
+   "privacy": "public",
+   "thumb_error": null
+  },
+  "youtube_long": {
+   "status": "posted",
+   "posted_at": "2026-11-27T09:22:00Z",
+   "id": "_IgUj5TGF70",
+   "url": "https://youtu.be/_IgUj5TGF70",
+   "privacy": "public",
+   "thumb_error": null
+  }
+ },
+ "updated_at": "2026-11-27T09:22:00Z",
+ "archive": "https://github.com/stackbyhq/stackby-reels/releases/tag/posted-06-airtable-vs-stackby"
+}
