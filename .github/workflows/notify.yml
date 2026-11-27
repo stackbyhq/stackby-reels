@@ -1,11 +1,16 @@
 name: notify
-# Telegram: link the chat when ops/telegram-setup.trigger changes; daily digest at 03:30 UTC (09:00 IST).
+# Telegram: link the chat when ops/telegram-setup.trigger changes; daily insights digest at 09:00 IST.
+# GitHub sometimes skips scheduled runs, so there are backup times; the digest sends only once per day.
 on:
   push:
     branches: [main]
     paths: ["ops/telegram-setup.trigger"]
   schedule:
     - cron: "30 3 * * *"
+    - cron: "52 3 * * *"
+    - cron: "23 4 * * *"
+    - cron: "11 5 * * *"
+    - cron: "37 6 * * *"
   workflow_dispatch:
 concurrency:
   group: notify
