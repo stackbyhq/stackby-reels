@@ -1,0 +1,36 @@
+{
+ "name": "19-tender-rfp-portal",
+ "title": "Tender & RFP Management Portal",
+ "at": "2026-11-28T07:00:00Z",
+ "status": "posted",
+ "queued_at": "2026-11-21T21:10:46Z",
+ "attempts": 1,
+ "platforms": {
+  "instagram": {
+   "status": "posted",
+   "posted_at": "2026-11-28T16:08:12Z",
+   "id": "18137215222742338",
+   "url": "https://www.instagram.com/reel/DgSpYrdh0xv/",
+   "username": "stackbyhq",
+   "comment_error": null
+  },
+  "youtube_short": {
+   "status": "posted",
+   "posted_at": "2026-11-28T16:08:14Z",
+   "id": "to6qk5WqIvU",
+   "url": "https://youtube.com/shorts/to6qk5WqIvU",
+   "privacy": "public",
+   "thumb_error": null
+  },
+  "youtube_long": {
+   "status": "posted",
+   "posted_at": "2026-11-28T16:08:21Z",
+   "id": "Pqc9Ldh7LUc",
+   "url": "https://youtu.be/Pqc9Ldh7LUc",
+   "privacy": "public",
+   "thumb_error": null
+  }
+ },
+ "updated_at": "2026-11-28T16:08:21Z",
+ "archive": "https://github.com/stackbyhq/stackby-reels/releases/tag/posted-19-tender-rfp-portal"
+}
